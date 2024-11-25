@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3';
 import Item from './Item.vue';
 
 const meta: Meta<typeof Item> = {
-  title: 'Components/Item',
+  title: 'Elements/Item',
   component: Item,
   argTypes: {
     name: {
@@ -49,7 +49,7 @@ export const DefaultItem: Story = {
     name: 'Produit Exemple',
     price: 29.99,
     image: {
-      url: 'https://via.placeholder.com/600*400',
+      url: 'https://via.placeholder.com/600x400',
       alt: 'Image par défaut',
     },
     description: 'Ceci est une description d\'un produit.',
@@ -62,7 +62,7 @@ export const CustomItem: Story = {
     name: 'Sac à dos',
     price: 49.99,
     image: {
-      url: 'https://via.placeholder.com/200',
+      url: 'https://via.placeholder.com/600x400',
       alt: 'Image d\'un sac à dos',
     },
     description: 'Un sac à dos robuste pour toutes vos aventures.',
@@ -75,7 +75,7 @@ export const ExpensiveItem: Story = {
     name: 'Montre de Luxe',
     price: 999.99,
     image: {
-      url: 'https://via.placeholder.com/250',
+      url: 'https://via.placeholder.com/600x400',
       alt: 'Image d\'une montre de luxe',
     },
     description: 'Une montre élégante et sophistiquée pour les grandes occasions.',
