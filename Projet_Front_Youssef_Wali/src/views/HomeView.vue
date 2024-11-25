@@ -5,7 +5,6 @@ import DefaultLayout from '@/layouts/Default.vue';
 import Form from '@/components/form.vue';
 import Item from '@/components/Item.vue';
 import ListParfums from '@/components/ListParfums.vue';
-
 </script>
 
 <template>
