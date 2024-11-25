@@ -1,0 +1,9 @@
+
+@use 'sass:math';
+@function rem($px) {
+  @return math.div($px, 16px) * 1rem;
+}
+
+@function col-width($col, $totalCol: 12) {
+  @return math.div($col, $totalCol) * 100%;
+}
