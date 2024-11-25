@@ -1,0 +1,40 @@
+@mixin font-size($size, $line-height: "auto") {
+    font-size: rem($size);
+    @if $line-height != "auto" {
+      line-height: $line-height;
+    }
+  }
+  
+  $small: 650px;
+  $medium: 768px;
+  $large: 960px;
+  
+  @mixin small-up() {
+    @media screen and (min-width: $small) {
+      @content;
+    }
+  }
+  
+  @mixin small-down() {
+    @media screen and (max-width: ($small - 1px)) {
+      @content;
+    }
+  }
+  
+  @mixin medium-up() {
+    @media screen and (min-width: $medium) {
+      @content;
+    }
+  }
+  
+  @mixin medium-only() {
+    @media screen and (min-width: $medium) and (max-width: ($large -1px)) {
+      @content;
+    }
+  }
+  
+  @mixin large-up() {
+    @media screen and (min-width: $large) {
+      @content;
+    }
+  }
