@@ -20,6 +20,9 @@ jobs:
         with:
           node-version: 20
 
+          - name: Go to directory
+            run: cd Projet_Front_Youssef_Wali
+
       # Installer les dépendances NPM
       - name: Install dependencies
         run: npm install
