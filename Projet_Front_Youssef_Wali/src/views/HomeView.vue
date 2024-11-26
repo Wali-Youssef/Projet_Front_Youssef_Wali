@@ -3,6 +3,8 @@ import { RouterLink,  } from 'vue-router';
 import DefaultLayout from '@/layouts/Default.vue';
 import Form from '@/components/form.vue';
 import ListParfums from '@/components/ListParfums.vue';
+
+// const name = "app"rgerq,vfZ
 </script>
 
 <template>
