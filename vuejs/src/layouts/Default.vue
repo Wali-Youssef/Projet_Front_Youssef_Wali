@@ -5,20 +5,20 @@
 
 <main class="layouts">
 <header class="header">
-<slot name="header"></slot>
+<slot name="header"/>
 
 </header>
 
 <section class="section">
-    <slot></slot>
+    <slot/>
 </section>
 
 <aside class="aside">
-    <slot name="aside"></slot>
+    <slot name="aside"/>
 </aside>
 
 <footer class="footer">
-    <slot name="footer"></slot>
+    <slot name="footer"/>
 </footer>
 
 </main>

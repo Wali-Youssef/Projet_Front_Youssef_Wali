@@ -20,7 +20,7 @@ const emit = defineEmits<{
 }>();
 
 // Liste des parfums
-const parfums = [
+const staticParfums = [
   {
     id: 1,
     name: "Chanel No. 5",
@@ -75,7 +75,7 @@ const parfums = [
 
 // Calculer les parfums filtrés en fonction de la valeur de `filterValue`
 const parfumsFiltered = computed(() => {
-  return parfums.filter(parfum => parfum.name.toLowerCase().includes(props.filterValue.toLowerCase()));
+  return staticParfums.filter(parfum => parfum.name.toLowerCase().includes(props.filterValue.toLowerCase()));
 });
 
 // Gérer la mise à jour de la valeur de `filterValue`
@@ -90,11 +90,11 @@ const handleFilterChange = (event: Event) => {
     <!-- Champ de recherche pour filtrer les parfums -->
     <input
       :value="filterValue"
-      @input="handleFilterChange"  
-      type="text"
+      type="text"  
       placeholder="Filtrer par nom"
       class="filter-input"
-    />
+      @input="handleFilterChange"
+    >
 
     <!-- Liste des parfums filtrés -->
     <div v-for="parfum in parfumsFiltered" :key="parfum.id" class="parfum-item">
