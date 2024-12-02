@@ -1,18 +1,30 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, defineEmits } from 'vue';
 import Mybutton from './Button.vue';
 
-const email = ref('');
-const password = ref('');
+// Définir les props
+const props = defineProps({
+  email: { type: String, default: '' },
+  password: { type: String, default: '' }
+});
+
+// Définir l'événement `submit` pour émettre l'événement lors de la soumission
+const emit = defineEmits<{ (e: 'submit', data: { email: string; password: string }): void }>();
+
+const email = ref(props.email);
+const password = ref(props.password);
 
 function handleSubmit() {
-    alert(email.value + " " + password.value);
+    emit('submit', { email: email.value, password: password.value });
 }
 </script>
 
 <template>
     <div class="form-container">
         <form @submit.prevent="handleSubmit" class="form">
+            <!-- Ajout du titre -->
+            <h2 class="form__title">Inscription</h2>
+            
             <div class="form__group">
                 <label for="email" class="form__label">Email</label>
                 <input type="email" name="email" v-model="email" placeholder="Entrez votre email" class="form__input"/>
@@ -22,7 +34,6 @@ function handleSubmit() {
                 <input type="password" name="password" v-model="password" placeholder="Entrez votre mot de passe" class="form__input"/>
             </div>
             <div class="form__actions">
-                <!-- Utilisation du bouton avec les props -->
                 <Mybutton :variant="'primary'" :disabled="false">Se connecter</Mybutton>
                 <p class="form__register-link">Vous n'avez pas de compte ? <a href="#" class="form__link">S'inscrire</a></p>
             </div>
@@ -36,8 +47,8 @@ function handleSubmit() {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background: url('../assets/img/dubai.png') no-repeat center center fixed;
-    background-size: cover;
+//   background: url('../assets/img/dubai.png') no-repeat center center fixed;
+//     background-size: cover;
 }
 
 .form {
@@ -47,6 +58,15 @@ function handleSubmit() {
     width: 100%;
     max-width: 400px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    
+}
+
+.form__title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 1.5rem;
+    color: #333;
 }
 
 .form__group {
