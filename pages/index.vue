@@ -5,6 +5,10 @@
 <template>
   <div>
     Accueil
+
+    <MyButton> BOUTON</MyButton>
+
+    <ListParfums/>
   </div>
 </template>
 
