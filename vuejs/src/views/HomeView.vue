@@ -31,5 +31,6 @@ import ListParfums from '@/components/ListParfums.vue';
       
       <ListParfums/>
 
+      <Form/>
   </DefaultLayout>
 </template>
