@@ -6,7 +6,7 @@ import Form from '@/components/form.vue';
   <div class="test">
     
     
-    <Form></Form>
+    <Form/>
   </div>
 </template>
 

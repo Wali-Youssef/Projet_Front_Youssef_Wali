@@ -6,12 +6,13 @@ defineProps<{
 </script>
 
 <template>
-    <button :class="[
+    <button
+:class="[
         'button',
         variant ? `button--${variant}` : '',
         disabled ? 'button--disabled' : ''
     ]">
-        <slot></slot>
+        <slot/>
     </button>
 </template>
 

@@ -21,17 +21,17 @@ function handleSubmit() {
 
 <template>
     <div class="form-container">
-        <form @submit.prevent="handleSubmit" class="form">
+        <form class="form" @submit.prevent="handleSubmit">
             <!-- Ajout du titre -->
             <h2 class="form__title">Inscription</h2>
             
             <div class="form__group">
                 <label for="email" class="form__label">Email</label>
-                <input type="email" name="email" v-model="email" placeholder="Entrez votre email" class="form__input"/>
+                <input v-model="email" type="email" name="email" placeholder="Entrez votre email" class="form__input">
             </div>
             <div class="form__group">
                 <label for="password" class="form__label">Mot de passe</label>
-                <input type="password" name="password" v-model="password" placeholder="Entrez votre mot de passe" class="form__input"/>
+                <input v-model="password" type="password" name="password" placeholder="Entrez votre mot de passe" class="form__input">
             </div>
             <div class="form__actions">
                 <Mybutton :variant="'primary'" :disabled="false">Se connecter</Mybutton>

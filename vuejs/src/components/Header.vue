@@ -2,13 +2,13 @@
     <header class="header">
       <div class="container">
         <div class="logo">
-          <img src="@/assets/img/foot5logo.png" alt="Logo" />
+          <img src="@/assets/img/foot5logo.png" alt="Logo" >
         </div>
         <!-- Bouton hamburger -->
         <button class="hamburger" @click="toggleMenu">
-          <span></span>
-          <span></span>
-          <span></span>
+          <span/>
+          <span/>
+          <span/>
         </button>
         <!-- Navigation -->
         <nav class="nav" :class="{ 'is-active': isMenuOpen }">

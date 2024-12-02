@@ -90,11 +90,11 @@ const handleFilterChange = (event: Event) => {
     <!-- Champ de recherche pour filtrer les parfums -->
     <input
       :value="filterValue"
-      @input="handleFilterChange"  
-      type="text"
+      type="text"  
       placeholder="Filtrer par nom"
       class="filter-input"
-    />
+      @input="handleFilterChange"
+    >
 
     <!-- Liste des parfums filtrés -->
     <div v-for="parfum in parfumsFiltered" :key="parfum.id" class="parfum-item">

@@ -21,11 +21,11 @@ const handleAddToCart = () => {
 
 <template>
   <div class="c-item">
-    <img class="c-itemimage -blue" :src="image.url" :alt="image.alt"/>
+    <img class="c-itemimage -blue" :src="image.url" :alt="image.alt">
     <p class="c-itemtitle">{{ name }}</p>
     <p>{{ description }}</p>
     <p>{{ price }} €</p>
-    <button @click="handleAddToCart" class="button c-itembutton">Ajouter au panier</button>
+    <button class="button c-itembutton" @click="handleAddToCart">Ajouter au panier</button>
   </div>
 </template>
 

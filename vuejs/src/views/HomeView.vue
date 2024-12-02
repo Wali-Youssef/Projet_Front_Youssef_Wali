@@ -29,7 +29,7 @@ import ListParfums from '@/components/ListParfums.vue';
 
     <h1>Home</h1>
       
-      <ListParfums></ListParfums>
+      <ListParfums/>
 
   </DefaultLayout>
 </template>
