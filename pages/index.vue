@@ -5,6 +5,8 @@
 <template>
   <div>
     Accueil
+
+    <MyButton> BOUTON</MyButton>
   </div>
 </template>
 
