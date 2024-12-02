@@ -19,6 +19,7 @@ export default meta;
 
 type Story = StoryObj<typeof ListParfums>;
 
+// Données de parfums simulées
 const parfumsMock = [
   {
     id: 1,
@@ -50,8 +51,8 @@ const storyOptions: Omit<Story, 'args'> = {
       return { args };
     },
     template: `
-      <ListParfums style="width: 100%"
-        v-bind="args"
+      <ListParfums style="width: 100%" 
+        v-bind="args"  
       />
     `,
   }),
@@ -61,14 +62,14 @@ export const DefaultList: Story = {
   ...storyOptions,
   args: {
     filterValue: '',
-    parfums: parfumsMock,
+    parfums: parfumsMock,  // Liste des parfums fournie
   },
 };
 
 export const FilteredList: Story = {
   ...storyOptions,
   args: {
-    filterValue: 'Dior',
+    filterValue: 'Dior',  // Valeur de filtre pour afficher les parfums contenant "Dior"
     parfums: parfumsMock,
   },
 };
@@ -77,6 +78,6 @@ export const EmptyList: Story = {
   ...storyOptions,
   args: {
     filterValue: '',
-    parfums: [],
+    parfums: [],  // Liste vide pour tester un cas sans parfums
   },
 };
