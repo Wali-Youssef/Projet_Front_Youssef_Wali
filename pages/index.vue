@@ -7,6 +7,8 @@
     Accueil
 
     <MyButton> BOUTON</MyButton>
+
+    <ListParfums/>
   </div>
 </template>
 
