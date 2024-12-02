@@ -1,8 +1,9 @@
 <template>
   <div>
 
-    <Header />
+   <NuxtLayout>
     <NuxtPage />
+   </NuxtLayout>
    app.vue
   </div>
 </template>
