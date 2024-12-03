@@ -2,8 +2,14 @@
 export default defineNuxtConfig({
   compatibilityDate: '2024-11-01',
   devtools: { enabled: true },
-  modules: ['@nuxt/eslint',],
+  modules: ['@nuxt/eslint', '@nuxtjs/sanity'],
+  
+  sanity: {
+    projectId: "xfzl68pc",
+    dataset: "production",
+  },
 
+ 
   css: [
         '@/assets/main.scss'],
 
