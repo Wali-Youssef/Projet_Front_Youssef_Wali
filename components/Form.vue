@@ -25,25 +25,25 @@ function handleSubmit() {
       <div class="form__group">
         <label for="email" class="form__label">Email</label>
         <input
+          id="email"
           v-model="email"
           type="email"
-          id="email"
           name="email"
           placeholder="Entrez votre email"
           class="form__input"
-        />
+        >
       </div>
 
       <div class="form__group">
         <label for="password" class="form__label">Mot de passe</label>
         <input
+          id="password"
           v-model="password"
           type="password"
-          id="password"
           name="password"
           placeholder="Entrez votre mot de passe"
           class="form__input"
-        />
+        >
       </div>
 
       <div class="form__actions">
