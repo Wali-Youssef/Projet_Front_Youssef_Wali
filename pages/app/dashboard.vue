@@ -13,6 +13,12 @@ const newHabitTitle = ref('');
 const newHabitDescription = ref('');
 const formErrorMessage = ref('');
 
+// Champs réactifs pour l'édition
+const editingHabit = ref<string | null>(null);
+const editedHabitTitle = ref('');
+const editedHabitDescription = ref('');
+const editErrorMessage = ref('');
+
 // Fonction pour charger les données du tableau de bord
 const fetchDashboardData = async () => {
   try {
@@ -63,10 +69,14 @@ const handleAddHabit = async () => {
     newHabitTitle.value = '';
     newHabitDescription.value = '';
     await fetchDashboardData();
-  } catch (error: any) {
+  } catch (error: unknown) {
+  if (error instanceof Error) {
     console.error('Erreur:', error.message);
     formErrorMessage.value = 'Impossible d’ajouter une nouvelle habitude.';
+  } else {
+    console.error('Erreur inconnue:', error);
   }
+}
 };
 
 // Fonction pour supprimer une habitude
@@ -89,6 +99,59 @@ const deleteHabit = async (habitId: string) => {
   }
 };
 
+// Fonction pour activer/désactiver le mode édition
+const enableEditHabit = (habit: { id: string; title: string; description: string }) => {
+  editingHabit.value = habit.id;
+  editedHabitTitle.value = habit.title;
+  editedHabitDescription.value = habit.description || '';
+};
+
+const cancelEditHabit = () => {
+  editingHabit.value = null;
+  editedHabitTitle.value = '';
+  editedHabitDescription.value = '';
+  editErrorMessage.value = '';
+};
+
+// Fonction pour mettre à jour une habitude
+const handleEditHabit = async (habitId: string) => {
+  editErrorMessage.value = '';
+
+  if (!editedHabitTitle.value.trim()) {
+    editErrorMessage.value = 'Le titre est obligatoire.';
+    return;
+  }
+
+  try {
+    const response = await fetch(`http://localhost:4000/habits/${habitId}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${useCookie('api_tracking_jwt').value}`,
+      },
+      body: JSON.stringify({
+        title: editedHabitTitle.value,
+        description: editedHabitDescription.value || null,
+      }),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || 'Erreur lors de la mise à jour de l’habitude.');
+    }
+
+    await fetchDashboardData();
+    cancelEditHabit();
+  } catch (error: unknown) {
+  if (error instanceof Error) {
+    console.error('Erreur:', error.message);
+    editErrorMessage.value = 'Impossible de mettre à jour l’habitude.';
+  } else {
+    console.error('Erreur inconnue:', error);
+  }
+}
+};
+
 // Charger les données au montage du composant
 onMounted(fetchDashboardData);
 </script>
@@ -101,7 +164,7 @@ onMounted(fetchDashboardData);
     <div class="habit-form-container">
       <h2>Ajouter une nouvelle habitude</h2>
 
-      <form @submit.prevent="handleAddHabit" class="habit-form">
+      <form class="habit-form" @submit.prevent="handleAddHabit">
         <div class="form-group">
           <label for="newHabitTitle">Titre de l'habitude</label>
           <input
@@ -110,7 +173,7 @@ onMounted(fetchDashboardData);
             type="text"
             placeholder="Ex: Lecture quotidienne"
             required
-          />
+          >
         </div>
 
         <div class="form-group">
@@ -118,8 +181,7 @@ onMounted(fetchDashboardData);
           <textarea
             id="newHabitDescription"
             v-model="newHabitDescription"
-            placeholder="Décrivez votre habitude en détail"
-          ></textarea>
+            placeholder="Décrivez votre habitude en détail"/>
         </div>
 
         <div v-if="formErrorMessage" class="error-message">
@@ -146,10 +208,29 @@ onMounted(fetchDashboardData);
       <h2>Mes habitudes personnelles</h2>
       <ul v-if="data.personalHabits.length">
         <li v-for="habit in data.personalHabits" :key="habit.id" class="personal-habit-item">
-          <div>
+          <div v-if="editingHabit !== habit.id">
             <strong>{{ habit.title }}</strong>: {{ habit.description || 'Pas de description' }}
+            <button class="edit-btn" @click="enableEditHabit(habit)">Modifier</button>
+            <button class="delete-btn" @click="deleteHabit(habit.id)">Supprimer</button>
           </div>
-          <button @click="deleteHabit(habit.id)" class="delete-btn">Supprimer</button>
+
+          <div v-else class="edit-form">
+            <input
+              v-model="editedHabitTitle"
+              type="text"
+              placeholder="Titre de l'habitude"
+              required
+            >
+            <textarea
+              v-model="editedHabitDescription"
+              placeholder="Description (optionnel)"
+            />
+            <div v-if="editErrorMessage" class="error-message">
+              {{ editErrorMessage }}
+            </div>
+            <button class="submit-btn" @click="() => handleEditHabit(habit.id)">Sauvegarder</button>
+            <button class="cancel-btn" @click="cancelEditHabit">Annuler</button>
+          </div>
         </li>
       </ul>
       <p v-else>Vous n'avez pas encore d'habitudes personnelles.</p>
@@ -211,6 +292,34 @@ textarea {
   background-color: #45a049;
 }
 
+.edit-btn {
+  background-color: #ffc107;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.edit-btn:hover {
+  background-color: #e0a800;
+}
+
+.cancel-btn {
+  background-color: #6c757d;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.cancel-btn:hover {
+  background-color: #5a6268;
+}
+
 .error-message {
   color: red;
   margin-bottom: 10px;
@@ -224,6 +333,12 @@ textarea {
   background-color: #f9f9f9;
   margin-bottom: 10px;
   border-radius: 4px;
+}
+
+.edit-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .delete-btn {

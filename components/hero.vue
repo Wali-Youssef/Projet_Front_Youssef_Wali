@@ -1,18 +1,19 @@
 <script setup lang="ts">
-import { defineProps } from 'vue';
+import type { SanityImageSource } from "@sanity/image-url/lib/types/types";
 
-const props = defineProps({
-  title: String,
-  text: String,
-  image: Object,
-  stats: Array,
-});
+
+const props = defineProps<{ 
+    title: string,
+    text: string,
+    image: SanityImageSource,
+    stats: { value: string, text: string }[] 
+}>();
   
 const { urlFor } = useSanityImage();
 </script>
 
 <template>
-  <div class="hero" :style="{ backgroundImage: `url(${urlFor(props.image).url()})` }">
+  <div class="hero" :style="{ backgroundImage: `url(${urlFor(props.image)?.url()})` }">
     <div class="hero-overlay">
       <h1 class="hero-title">{{ props.title }}</h1>
       <p class="hero-text">{{ props.text }}</p>

@@ -42,7 +42,7 @@ function handleSubmit(event: Event) {
           placeholder="Entrez votre nom d'utilisateur"
           class="form__input"
           required
-        />
+        >
       </div>
 
       <div class="form__group">
@@ -55,7 +55,7 @@ function handleSubmit(event: Event) {
           placeholder="Entrez votre mot de passe"
           class="form__input"
           required
-        />
+        >
       </div>
 
       <div class="form__actions">
