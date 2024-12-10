@@ -20,13 +20,13 @@ console.log('form has submitted')
 
       <div>
         <label for="username">Username</label>
-        <input v-model="username" type="username" id="username">
+        <input id="username" v-model="username" type="username">
 
     </div>
 
     <div>
         <label for="password">Mot de passe</label>
-        <input v-model="password" type="password" id="password">
+        <input id="password" v-model="password" type="password">
     </div>
 
     <div>
