@@ -123,7 +123,8 @@ const { data: posts } = await useSanityQuery<SanityDocument[]>(groq`
 
 on affiche la page {{ totalPages}}
 <div class="p-blog__pagination">
-<div v-for="n in totalPages" :key="n" class="p-blog__page"
+<div
+v-for="n in totalPages" :key="n" class="p-blog__page"
 @click="onPageClick(n)">
 page {{ n }}
 
@@ -133,7 +134,7 @@ page {{ n }}
       <!-- Liste des articles -->
       <div>
         <ul class="p-blog__list">
-          <li class="p-blog__title" v-for="(post, index) in posts" :key="index">
+          <li v-for="(post, index) in posts" :key="index" class="p-blog__title">
             <NuxtLink :to="`/blog/${post.slug.current}`">
               {{ post.title }}
             </NuxtLink>
@@ -142,7 +143,7 @@ page {{ n }}
               class="p-blog__item-image"
               :src="urlFor(post.image)?.url()"
               :alt="post.title"
-            />
+            >
             <div class="p-blog__tags">
               <span
                 v-for="(category, idx) in post.categories"

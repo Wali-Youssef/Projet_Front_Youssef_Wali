@@ -14,13 +14,14 @@ const username = ref(props.username);
 const password = ref(props.password);
 const errorMessage = ref('');
 
+// Fonction de gestion de la soumission
 function handleSubmit(event: Event) {
   event.preventDefault(); // Empêche le rechargement de la page
-  console.log('Login form has been submitted');
-  console.log('Username:', username.value);
-  console.log('Password:', password.value);
+  console.log('Inscription soumise');
+  console.log('Nom d\'utilisateur:', username.value);
+  console.log('Mot de passe:', password.value);
 
-  // Émettre l'événement de soumission
+  
   emit('submit', { username: username.value, password: password.value });
 }
 </script>
@@ -28,8 +29,8 @@ function handleSubmit(event: Event) {
 <template>
   <div class="form-container">
     <form class="form" @submit.prevent="handleSubmit">
-      <!-- Titre -->
-      <h2 class="form__title">Connexion</h2>
+      
+      <h2 class="form__title">Inscription</h2>
 
       <div class="form__group">
         <label for="username" class="form__label">Nom d'utilisateur</label>
@@ -58,18 +59,20 @@ function handleSubmit(event: Event) {
       </div>
 
       <div class="form__actions">
-        <MyButton :variant="'primary'" :disabled="false">Se connecter</MyButton>
+        <MyButton :variant="'primary'" :disabled="false">S'inscrire</MyButton>
         <p v-if="errorMessage" class="form__error-message">{{ errorMessage }}</p>
-        <p class="form__register-link">
-          Vous n'avez pas de compte ?
-          <NuxtLink to="/register" class="form__link">S'inscrire</NuxtLink>
+        <p class="form__login-link">
+          Vous avez déjà un compte ?
+          <NuxtLink to="/login" class="form__link">Se connecter</NuxtLink>
         </p>
       </div>
     </form>
   </div>
 </template>
 
+
 <style scoped lang="scss">
+
 .form-container {
   display: flex;
   justify-content: center;
@@ -118,7 +121,7 @@ function handleSubmit(event: Event) {
   gap: 1rem;
 }
 
-.form__register-link {
+.form__login-link {
   font-size: 0.875rem;
   text-align: center;
 }
