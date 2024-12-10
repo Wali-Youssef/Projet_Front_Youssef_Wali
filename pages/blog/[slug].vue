@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import type { SanityDocument } from "@sanity/client";
 
+
+
+
 // Inclure un tableau de catégories dans la requête
 const POST_QUERY = groq`
   *[_type == "post" && slug.current == $slug][0]{
@@ -15,10 +18,21 @@ const route = useRoute();
 
 const { data: post } = await useSanityQuery<SanityDocument>(POST_QUERY, { slug: route.params.slug });
 
-// Renvoyer une page d'erreur si le post n'existe pas
+
 if (!post.value) {
   throw createError({ statusCode: 404, statusMessage: "Page not found" });
 }
+const {urlFor}  = useSanityImage()
+
+    useSeoMeta({
+  title: `${post.value.title} | Tracking app`,
+  description: 'retrouver nos notes de mises à jour et nos dernieres actualités',
+  ogTitle: 'un titre spécifique pour les balises opengraphe',
+  ogDescription: 'une descripton speécifique pour chaque balises',
+  ogImage: post.value.image && urlFor(post.value.image) ? urlFor(post.value.image)?.url() : '/foot5logo.png'
+});
+
+
 </script>
 
 

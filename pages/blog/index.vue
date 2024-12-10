@@ -1,7 +1,17 @@
 <script setup lang="ts">
 import type { SanityDocument } from "@sanity/client";
-import imageUrlBuilder from "@sanity/image-url";
-import type { SanityImageSource } from "@sanity/image-url/lib/types/types";
+
+
+useSeoMeta({
+    title: 'Blog | Tracking app de youssef',
+    description: 'retrouver nos notes de mises à jour et nos dernieres actualités',
+    ogTitle:'un titre spécifique pour les balises opengraphe',
+    ogDescription: 'une descripton speécifique pour chaque balises',
+    ogImage: '/foot5logo.png'
+
+
+
+})
 
 const page = ref(1)
 const perPage=2
@@ -79,13 +89,11 @@ const { data: posts } = await useSanityQuery<SanityDocument[]>(groq`
 `, { filterRef: filterRef , start: paginationStart, end: paginationEnd });
 
 
-const { projectId, dataset } = useSanity().client.config();
 
 
-const urlFor = (source: SanityImageSource) =>
-  projectId && dataset
-    ? imageUrlBuilder({ projectId, dataset }).image(source)
-    : null;
+
+ const {urlFor}  = useSanityImage()
+ 
 </script>
 
 
