@@ -30,11 +30,6 @@ const handleAddToCart = () => {
 </template>
 
 <style lang="scss">
-$c-gray100: #d3d3d3;
-$c-gray800: #333;
-$c-primaryColor: #007bff;
-$c-gray400: #e0e0e0;
-$c-blue: #007bff;
 
 .c-item {
   padding: 16px;

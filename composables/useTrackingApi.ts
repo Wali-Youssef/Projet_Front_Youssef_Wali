@@ -4,7 +4,7 @@ export default async function (endpoint: string, {method, body}: {method: 'GET'|
 
         const config = useRuntimeConfig()
 
-        const response = await fetch(`${config.public.apiBaseUrl}/${endpoint}`, {
+        const response = await fetch('${config.public.apiTrackingBaseUrl}${endpoint}', {
             method,
             headers: {
                 'content-type': 'application/json',

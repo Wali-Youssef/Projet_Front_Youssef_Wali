@@ -1,154 +1,153 @@
 <template>
   <header class="header">
-    <div class="container">
-      <div class="logo">
-        <img src="@/assets/img/foot5logo.png" alt="Logo" >
+    <div class="header__container">
+      <div class="header__logo">
+        <NuxtLink to="/">
+          <img src="../assets/img/foot5logo.png" alt="Logo" />
+        </NuxtLink>
       </div>
-      <!-- Bouton hamburger -->
-      <button class="hamburger" @click="toggleMenu">
-        <span />
-        <span />
-        <span />
-      </button>
-      <!-- Navigation -->
-      <nav class="nav" :class="{ 'is-active': isMenuOpen }">
-        <NuxtLink to="/connexion" class="btn">Connexion</NuxtLink>
-        <NuxtLink to="/blog" class="btn btn-primary">Inscription</NuxtLink>
+      <nav class="header__nav">
+        <ul class="header__list">
+          <li class="header__item"><NuxtLink to="/" class="header__link">Home</NuxtLink></li>
+          <li class="header__item"><NuxtLink to="/login" class="header__link">Connexion</NuxtLink></li>
+          <li class="header__item"><NuxtLink to="/register" class="header__link">Inscription</NuxtLink></li>
+          <li class="header__item"><NuxtLink to="/blog" class="header__link">Blog</NuxtLink></li>
+        </ul>
       </nav>
+      <button class="header__burger" @click="toggleMenu">
+        <span class="header__burger-line"></span>
+        <span class="header__burger-line"></span>
+        <span class="header__burger-line"></span>
+      </button>
     </div>
+    <nav class="header__mobile-nav" :class="{ 'header__mobile-nav--active': isMenuOpen }">
+      <ul class="header__mobile-list">
+        <li class="header__mobile-item"><NuxtLink to="/" class="header__mobile-link">Home</NuxtLink></li>
+        <li class="header__mobile-item"><NuxtLink to="/connexion" class="header__mobile-link">Connexion</NuxtLink></li>
+        <li class="header__mobile-item"><NuxtLink to="/inscription" class="header__mobile-link">Inscription</NuxtLink></li>
+        <li class="header__mobile-item"><NuxtLink to="/blog" class="header__mobile-link">Blog</NuxtLink></li>
+      </ul>
+    </nav>
   </header>
 </template>
 
 <script>
 export default {
-  name: "AppHeader", // Nouveau nom
   data() {
     return {
-      isMenuOpen: false, // État du menu hamburger
+      isMenuOpen: false, // Etat du menu hamburger
     };
   },
   methods: {
     toggleMenu() {
-      this.isMenuOpen = !this.isMenuOpen; // Basculer l'état du menu
+      this.isMenuOpen = !this.isMenuOpen; // Bascule entre ouvert/fermé
     },
   },
 };
 </script>
 
-<style lang="scss" scoped>
-/* Styles principaux */
+<style scoped lang="scss">
 .header {
-  background-color: #1a2a44; /* Bleu foncé */
-  padding: 1rem 2rem;
-  display: flex;
-  align-items: center;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  position: relative;
-
-  .container {
+  &__container {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 100%;
+    padding: 1rem 2rem;
+    background-color: #1a2a44; /* Bleu foncé */
+    border-bottom: 1px solid #ddd;
   }
 
-  .logo img {
-    max-height: 50px;
+  &__logo img {
+    height: 40px;
   }
 
-  /* Bouton hamburger */
-  .hamburger {
-    display: none; /* Caché en mode desktop */
-    flex-direction: column;
-    justify-content: space-between;
-    width: 25px;
-    height: 20px;
+  &__nav {
+    display: block;
+
+    @media (max-width: 768px) {
+      display: none; /* Masqué en mobile */
+    }
+  }
+
+  &__list {
+    display: flex;
+    gap: 1.5rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  &__item {}
+
+  &__link {
+    text-decoration: none; /* Enlever le soulignage */
+    color: #ffffff; /* Texte blanc */
+    font-weight: bold;
+
+    &:hover {
+      color: #93c5fd; /* Bleu plus clair au survol */
+    }
+  }
+
+  &__burger {
     background: none;
     border: none;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
     cursor: pointer;
 
-    span {
-      display: block;
-      height: 3px;
-      background: #ffffff; /* Blanc */
-      border-radius: 2px;
-      transition: transform 0.3s, opacity 0.3s;
+    @media (max-width: 768px) {
+      display: flex; /* Affiché sur mobile */
+    }
+
+    @media (min-width: 769px) {
+      display: none; /* Masqué sur desktop */
     }
   }
 
-  /* Menu navigation */
-  .nav {
-    display: flex;
-    gap: 1rem;
+  &__burger-line {
+    width: 25px;
+    height: 3px;
+    background-color: #ffffff; /* Blanc */
+  }
 
-    .btn {
-      padding: 0.5rem 1.5rem;
-      border: none;
-      cursor: pointer;
-      border-radius: 8px;
-      font-size: 1rem;
-      font-weight: bold;
-      color: #ffffff; /* Texte bleu */
-      background-color: #1e3a8a; /* Bleu clair */
-      transition: background-color 0.3s;
+  &__mobile-nav {
+    display: none;
+    position: absolute;
+    top: 60px;
+    left: 0;
+    width: 100%;
+    background-color: #1a2a44; /* Bleu foncé */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 
-      &:hover {
-        background-color: #93c5fd; /* Bleu plus saturé */
-      }
-
-      &.btn-primary {
-        background-color: #e67e22; /* Orange vif */
-        color: #ffffff;
-
-        &:hover {
-          background-color: #fb923c; /* Orange plus clair */
-        }
-      }
+    &--active {
+      display: block; /* Affiche le menu mobile quand isMenuOpen est true */
     }
   }
 
-  /* Responsive styles */
-  @media (max-width: 768px) {
-    .hamburger {
-      display: flex; /* Visible en mode mobile/tablette */
-    }
+  &__mobile-list {
+    list-style: none;
+    margin: 0;
+    padding: 1rem;
+  }
 
-    .nav {
-      display: none; /* Masqué par défaut */
+  &__mobile-item {
+    margin-bottom: 1rem;
 
-      &.is-active {
-        display: flex;
-        flex-direction: column;
-        position: absolute;
-        top: 100%;
-        right: 0;
-        background: #1e3a8a; /* Fond bleu foncé */
-        width: 100%;
-        padding: 1rem;
-        gap: 1rem;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-      }
-
-      .btn {
-        background-color: #e0f2fe; /* Bleu clair */
-        color: #1e3a8a;
-
-        &.btn-primary {
-          background-color: #f97316; /* Orange vif */
-          color: #ffffff;
-        }
-      }
+    &:last-child {
+      margin-bottom: 0;
     }
   }
-}
 
-.hamburger span {
-  display: block;
-  height: 3px;
-  width: 100%;
-  background: #ffffff; /* Couleur blanche pour les barres */
-  border-radius: 2px;
-  margin-bottom: 4px;
-  transition: transform 0.3s, opacity 0.3s;
+  &__mobile-link {
+    text-decoration: none; /* Enlever le soulignage */
+    color: #ffffff; /* Texte blanc */
+    font-size: 1.2rem;
+
+    &:hover {
+      color: #93c5fd; /* Bleu plus clair au survol */
+    }
+  }
 }
 </style>
