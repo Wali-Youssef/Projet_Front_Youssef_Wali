@@ -32,7 +32,7 @@ const { urlFor } = useSanityImage();
           :src="urlFor(testimonial.image)?.url()"
           alt="Image de {{ testimonial.name }}"
           class="testimonial__image"
-        />
+        >
         <div class="testimonial__content">
           <h3 class="testimonial__name">{{ testimonial.name }}</h3>
           <p v-if="testimonial.role" class="testimonial__role">{{ testimonial.role }}</p>

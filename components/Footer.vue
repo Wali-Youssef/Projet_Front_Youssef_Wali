@@ -1,231 +1,265 @@
-<script setup lang="ts">
-import type { SanityDocument } from "@sanity/client";
-
-// Déclarez un type spécifique pour les données du footer
-interface FooterData {
-  partners: {
-    name: string;
-    logo: { asset: { url: string } };
-    link: string;
-  }[];
-  socialLinks: {
-    name: string;
-    url: string;
-    icon: { asset: { url: string } };
-  }[];
-  contact: {
-    email: string;
-    phone: string;
-    address: string;
-  };
-  about: {
-    text: string;
-  };
-}
-
-let footerData: FooterData | null = null;
-let error: string | null = null;
-
-try {
-  // Récupérer les données du footer à partir de Sanity
-  const { data } = await useSanityQuery<SanityDocument>(groq`
-    *[_type == "footer"][0] {
-      partners[] {
-        name,
-        logo {
-          asset->{
-            _id,
-            url
-          }
-        },
-        link
-      },
-      socialLinks[] {
-        name,
-        url,
-        icon {
-          asset->{
-            _id,
-            url
-          }
-        }
-      },
-      contact {
-        email,
-        phone,
-        address
-      },
-      about {
-        text
-      }
-    }
-  `);
-
-  footerData = data;
-} catch (err) {
-  error = "Une erreur s'est produite lors de la récupération des données du footer.";
-  console.error(error, err);
-}
-</script>
-
 <template>
-  <footer class="footer">
-    <div class="footer__top">
-      <!-- Section Partenaires -->
-      <div v-if="footerData?.partners" class="footer__partners">
-        <h3>Nos partenaires</h3>
-        <div class="partners__container">
-          <div v-for="(partner, index) in footerData.partners" :key="index" class="partner">
-            <a :href="partner.link" target="_blank" rel="noopener noreferrer">
+  <div class="footer">
+    <!-- Section Partenaires -->
+    <div class="footer__top" v-if="footerData">
+      <div
+        v-if="footerData.partners && footerData.partners.length"
+        class="footer__partners"
+      >
+        <h3 class="footer__heading">Nos partenaires</h3>
+        <div class="footer__partners-container">
+          <div
+            v-for="(partner, index) in footerData.partners"
+            :key="partner.name + index"
+            class="footer__partner"
+          >
+            <a :href="partner.link" target="_blank" rel="noopener noreferrer" class="footer__partner-link">
               <img
-                v-if="partner.logo"
-                :src="partner.logo?.asset?.url"
-                :alt="partner.name"
-                class="partner__logo"
+                v-if="partner.logo?.asset?.url"
+                :src="partner.logo.asset.url"
+                :alt="partner.name || 'Partenaire'"
+                class="footer__partner-logo"
               />
             </a>
-            <p>{{ partner.name }}</p>
+            <p class="footer__partner-name">{{ partner.name }}</p>
           </div>
         </div>
       </div>
+    </div>
 
-      <!-- Section Réseaux Sociaux -->
-      <div v-if="footerData?.socialLinks" class="footer__socials">
-        <h3>Suivez-nous</h3>
-        <div class="social__icons">
-          <div v-for="(social, index) in footerData.socialLinks" :key="index" class="social__icon">
-            <a :href="social.url" target="_blank" rel="noopener noreferrer">
-              <img
-                v-if="social.icon"
-                :src="social.icon?.asset?.url"
-                :alt="social.name"
-                class="social__icon-img"
-              />
-            </a>
-          </div>
-        </div>
-      </div>
+    <!-- Section Réseaux Sociaux -->
+    <div class="footer__socials">
+      <h3 class="footer__heading">Suivez-nous</h3>
+      <ul class="footer__socials-list">
+        <li
+          v-for="(social, index) in footerData?.socialLinks || []"
+          :key="social.name + index"
+          class="footer__social-item"
+        >
+          <a :href="social.url" target="_blank" rel="noopener noreferrer" class="footer__social-link">
+            <img
+              v-if="social.icon?.asset?.url"
+              :src="social.icon.asset.url"
+              :alt="social.name || 'Réseau social'"
+              class="footer__social-icon"
+            />
+            {{ social.name }}
+          </a>
+        </li>
+      </ul>
+    </div>
 
-      <!-- Section Contact -->
-      <div v-if="footerData?.contact" class="footer__contact">
-        <h3>Contactez-nous</h3>
-        <p>Email: <a :href="'mailto:' + footerData.contact.email">{{ footerData.contact.email }}</a></p>
-        <p>Téléphone: <a :href="'tel:' + footerData.contact.phone">{{ footerData.contact.phone }}</a></p>
-        <p>Adresse: {{ footerData.contact.address }}</p>
-      </div>
+    <!-- Section Contact -->
+    <div class="footer__contact">
+      <h3 class="footer__heading">Contactez-nous</h3>
+      <ul class="footer__contact-list">
+        <li v-if="footerData?.contact?.email" class="footer__contact-item">
+          <strong>Email :</strong> {{ footerData.contact.email }}
+        </li>
+        <li v-if="footerData?.contact?.phone" class="footer__contact-item">
+          <strong>Téléphone :</strong> {{ footerData.contact.phone }}
+        </li>
+        <li v-if="footerData?.contact?.address" class="footer__contact-item">
+          <strong>Adresse :</strong> {{ footerData.contact.address }}
+        </li>
+      </ul>
     </div>
 
     <!-- Section À propos -->
-    <div v-if="footerData?.about" class="footer__about">
-      <p>{{ footerData.about.text }}</p>
+    <div class="footer__about">
+      <h3 class="footer__heading">À propos</h3>
+      <p v-if="footerData?.about?.text" class="footer__about-text">
+        {{ footerData.about.text }}
+      </p>
     </div>
 
-    <!-- Section d'erreur -->
+    <!-- Gestion des erreurs -->
     <div v-if="error" class="footer__error">
-      <p>{{ error }}</p>
+      <p class="footer__error-message">{{ error }}</p>
     </div>
-
-    <!-- Copyright -->
-    <div class="footer__copyright">
-      <p>&copy; 2024 Votre Entreprise. Tous droits réservés.</p>
-    </div>
-  </footer>
+  </div>
 </template>
 
-<style scoped lang="scss">
-.footer {
-  background-color: #1a1a1a;
-  color: #fff;
-  padding: 4rem 1rem;
-  font-family: Arial, sans-serif;
+<script setup>
+import { ref, onMounted } from "vue";
 
-  &__top {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr); /* Trois colonnes pour partenaires, réseaux sociaux, contact */
-    gap: 3rem;
-    margin-bottom: 2rem;
+const footerData = ref(null);
+const error = ref(null);
 
-    & > div {
-      display: flex;
-      flex-direction: column;
-    }
-  }
-
-  &__partners,
-  &__socials,
-  &__contact {
-    h3 {
-      font-size: 1.5rem;
-      margin-bottom: 1rem;
-    }
-
-    .partners__container,
-    .social__icons {
-      display: flex;
-      gap: 1.5rem;
-      flex-wrap: wrap;
-    }
-
-    .partner,
-    .social__icon {
-      text-align: center;
-    }
-
-    .partner__logo,
-    .social__icon-img {
-      width: 40px;
-      height: 40px;
-      object-fit: cover;
-      margin-bottom: 1rem;
-    }
-  }
-
-  &__about {
-    text-align: center;
-    margin-top: 2rem;
-
-    p {
-      font-size: 1rem;
-      line-height: 1.5;
-    }
-  }
-
-  &__contact {
-    p {
-      font-size: 1rem;
-      line-height: 1.5;
-    }
-
-    a {
-      color: #fff;
-      text-decoration: none;
-
-      &:hover {
-        text-decoration: underline;
+onMounted(async () => {
+  try {
+    const query = `
+      *[_type == "footer"][0] {
+        partners[] {
+          name,
+          logo {
+            asset->{
+              url
+            }
+          },
+          link
+        },
+        socialLinks[] {
+          name,
+          url,
+          icon {
+            asset->{
+              url
+            }
+          }
+        },
+        contact {
+          email,
+          phone,
+          address
+        },
+        about {
+          text
+        }
       }
-    }
+    `;
+
+    const data = await useSanity().fetch(query);  
+    footerData.value = data;  
+
+  } catch (err) {
+    error.value = "Erreur lors de la récupération des données du footer.";
+    console.error("Erreur générale:", err);
+  }
+});
+</script>
+
+<style scoped>
+/* Bloc principal : Footer */
+.footer {
+  padding: 2rem;
+  background-color: #f9f9f9;
+  color: #333;
+  font-family: Arial, sans-serif;
+}
+
+/* Section générale : Titres */
+.footer__heading {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  color: #2c3e50;
+}
+
+/* Section partenaires */
+.footer__partners {
+  margin-top: 1rem;
+}
+
+.footer__partners-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.footer__partner {
+  text-align: center;
+}
+
+.footer__partner-logo {
+  max-width: 100px;
+  max-height: 50px;
+  object-fit: contain;
+}
+
+.footer__partner-link {
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.footer__partner-name {
+  font-size: 1rem;
+  color: #333;
+}
+
+/* Section réseaux sociaux */
+.footer__socials-list {
+  list-style: none;
+  padding: 0;
+}
+
+.footer__social-item {
+  margin-bottom: 0.5rem;
+}
+
+.footer__social-icon {
+  max-width: 24px;
+  max-height: 24px;
+  margin-right: 0.5rem;
+}
+
+.footer__social-link {
+  display: flex;
+  align-items: center;
+  color: #2c3e50;
+  text-decoration: none;
+}
+
+/* Section contact */
+.footer__contact-list {
+  list-style: none;
+  padding: 0;
+}
+
+.footer__contact-item {
+  margin-bottom: 0.5rem;
+}
+
+.footer__about-text {
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #333;
+}
+
+/* Gestion des erreurs */
+.footer__error-message {
+  color: red;
+  font-weight: bold;
+}
+
+/* RESPONSIVE */
+
+/* Pour les écrans de plus de 768px */
+@media (min-width: 768px) {
+  .footer__partners-container {
+    justify-content: space-between;
   }
 
-  &__copyright {
-    text-align: center;
-    margin-top: 3rem;
-    font-size: 1rem;
-    color: #bbb;
+  .footer__socials-list {
+    display: flex;
+    justify-content: space-between;
   }
 
-  &__error {
-    color: red;
-    font-weight: bold;
-    text-align: center;
-    margin-top: 2rem;
+  .footer__contact-list {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
   }
 }
 
-/* Responsive design */
-@media (max-width: 768px) {
-  .footer__top {
-    grid-template-columns: 1fr; /* Une colonne en mode mobile */
-    gap: 2rem;
+/* Pour les écrans de plus de 1024px */
+@media (min-width: 1024px) {
+  .footer__partner {
+    width: 22%;
+  }
+
+  .footer__social-item {
+    display: inline-block;
+    margin-right: 1rem;
+  }
+
+  .footer__contact-item {
+    width: 30%;
+  }
+
+  .footer__about-text {
+    width: 50%;
+    margin-top: 1rem;
   }
 }
+
 </style>

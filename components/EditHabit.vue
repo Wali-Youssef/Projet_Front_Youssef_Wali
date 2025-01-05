@@ -59,12 +59,12 @@ const modifyHabit = async () => {
     <form class="habit-modify__form" @submit.prevent="modifyHabit">
       <div class="habit-modify__field">
         <label for="title" class="habit-modify__label">Titre de l'habitude :</label>
-        <input id="title" v-model="updatedHabitTitle" type="text" class="habit-modify__input" />
+        <input id="title" v-model="updatedHabitTitle" type="text" class="habit-modify__input" >
       </div>
 
       <div class="habit-modify__field">
         <label for="description" class="habit-modify__label">Description :</label>
-        <input id="description" v-model="updatedHabitDescription" type="text" class="habit-modify__input" />
+        <input id="description" v-model="updatedHabitDescription" type="text" class="habit-modify__input" >
       </div>
 
       <button type="submit" class="habit-modify__button">Modifier</button>

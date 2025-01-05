@@ -16,10 +16,10 @@ const features = props.features || [];
         :key="index"
         class="features__item"
       >
-        <div class="features__image" v-if="feature.image?.asset?.url">
-          <img :src="feature.image.asset.url" alt="Feature Image" />
+        <div v-if="feature.image?.asset?.url" class="features__image">
+          <img :src="feature.image.asset.url" alt="Feature Image" >
         </div>
-        <div class="features__text" v-if="feature.text">
+        <div v-if="feature.text" class="features__text">
           {{ feature.text }}
         </div>
       </li>

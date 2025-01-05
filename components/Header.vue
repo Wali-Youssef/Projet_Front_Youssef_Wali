@@ -3,7 +3,7 @@
     <div class="header__container">
       <div class="header__logo">
         <NuxtLink to="/">
-          <img src="../assets/img/foot5logo.png" alt="Logo" />
+          <img src="../assets/img/foot5logo.png" alt="Logo" >
         </NuxtLink>
       </div>
       <nav class="header__nav">
@@ -15,9 +15,9 @@
         </ul>
       </nav>
       <button class="header__burger" @click="toggleMenu">
-        <span class="header__burger-line"></span>
-        <span class="header__burger-line"></span>
-        <span class="header__burger-line"></span>
+        <span class="header__burger-line"/>
+        <span class="header__burger-line"/>
+        <span class="header__burger-line"/>
       </button>
     </div>
     <nav class="header__mobile-nav" :class="{ 'header__mobile-nav--active': isMenuOpen }">

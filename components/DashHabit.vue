@@ -60,9 +60,9 @@ const resetActions = () => {
     <h2>Habitudes Personnelles</h2>
     <ul class="dashboard__habit-list">
       <li 
-        class="dashboard__habit-list__item" 
         v-for="(habit, index) in data.personalHabits" 
-        :key="index"
+        :key="index" 
+        class="dashboard__habit-list__item"
       >
         <span class="dashboard__habit-list__item__title">{{ habit.title }}</span>
         <span class="dashboard__habit-list__item__description">{{ habit.description }}</span>
@@ -86,16 +86,16 @@ const resetActions = () => {
     <DeleteHabit
       v-if="habitToDelete"
       :habit="habitToDelete"
+      class="dashboard__form dashboard__form--delete"
       @habit:deleted="onHabitDeleted"
       @cancel-delete="habitToDelete = null"
-      class="dashboard__form dashboard__form--delete"
     />
 
     <EditHabit
       v-if="habitToEdit"
       :habit="habitToEdit"
-      @habit:modified="onHabitModified"
       class="dashboard__form dashboard__form--edit"
+      @habit:modified="onHabitModified"
     />
 
     <AddHabitsForm @habit:created="onHabitCreated" />

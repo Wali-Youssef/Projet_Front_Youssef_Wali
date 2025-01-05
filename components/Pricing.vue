@@ -1,13 +1,14 @@
 <script setup lang="ts">
-const props = defineProps<{
+const _props = defineProps<{
   pricing: Array<{
     name: string;
     price: number;
     features: string[];
     cta: string;
-  }>;
+  }> ;
 }>();
 </script>
+
 
 <template>
   <div class="pricing">
