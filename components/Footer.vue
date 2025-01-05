@@ -129,137 +129,263 @@ onMounted(async () => {
 });
 </script>
 
-<style scoped>
-/* Bloc principal : Footer */
+<style scoped lang="scss">
+// Variables
+$breakpoint-sm: 576px;
+$breakpoint-md: 768px;
+$breakpoint-lg: 1024px;
+
+// Couleurs
+$background-color-footer: #1a2a44; // Fond du footer
+$color-text: #fff; // Texte blanc
+$color-heading: #f0f0f0; // Couleur des titres
+$color-link: #3498db; // Couleur des liens
+$background-color-sections: #2c3e50; // Fond sombre pour les sections
+
+// Footer global styles
 .footer {
-  padding: 2rem;
-  background-color: #f9f9f9;
-  color: #333;
-  font-family: Arial, sans-serif;
-}
+  background-color: $background-color-footer; // Fond du footer
+  padding: 40px;
+  font-family: 'Arial', sans-serif;
+  color: $color-text; // Texte blanc
 
-/* Section générale : Titres */
-.footer__heading {
-  font-size: 1.5rem;
-  margin-bottom: 1rem;
-  color: #2c3e50;
-}
-
-/* Section partenaires */
-.footer__partners {
-  margin-top: 1rem;
-}
-
-.footer__partners-container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-}
-
-.footer__partner {
-  text-align: center;
-}
-
-.footer__partner-logo {
-  max-width: 100px;
-  max-height: 50px;
-  object-fit: contain;
-}
-
-.footer__partner-link {
-  display: block;
-  margin-bottom: 0.5rem;
-}
-
-.footer__partner-name {
-  font-size: 1rem;
-  color: #333;
-}
-
-/* Section réseaux sociaux */
-.footer__socials-list {
-  list-style: none;
-  padding: 0;
-}
-
-.footer__social-item {
-  margin-bottom: 0.5rem;
-}
-
-.footer__social-icon {
-  max-width: 24px;
-  max-height: 24px;
-  margin-right: 0.5rem;
-}
-
-.footer__social-link {
-  display: flex;
-  align-items: center;
-  color: #2c3e50;
-  text-decoration: none;
-}
-
-/* Section contact */
-.footer__contact-list {
-  list-style: none;
-  padding: 0;
-}
-
-.footer__contact-item {
-  margin-bottom: 0.5rem;
-}
-
-.footer__about-text {
-  font-size: 1rem;
-  line-height: 1.5;
-  color: #333;
-}
-
-/* Gestion des erreurs */
-.footer__error-message {
-  color: red;
-  font-weight: bold;
-}
-
-/* RESPONSIVE */
-
-/* Pour les écrans de plus de 768px */
-@media (min-width: 768px) {
-  .footer__partners-container {
-    justify-content: space-between;
+  // Section : Partenaires
+  &__top {
+    margin-bottom: 40px;
   }
 
-  .footer__socials-list {
-    display: flex;
-    justify-content: space-between;
+  &__heading {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: $color-heading; // Couleur des titres
+    margin-bottom: 20px;
   }
 
-  .footer__contact-list {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
+  &__partners {
+    background-color: $background-color-sections; // Fond sombre pour la section partenaires
+    padding: 20px;
+    border-radius: 5px;
+
+    &-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+    }
+
+    &-link {
+      display: block;
+      text-decoration: none; // Supprime le surlignage des liens
+      color: $color-link; // Couleur des liens
+
+      &:hover {
+        text-decoration: none; // Assure qu'il n'y a pas de surlignage au survol
+        color: $color-link; // Maintient la couleur du lien
+      }
+    }
+
+    &-logo {
+      max-width: 100px;
+      height: auto;
+      object-fit: contain;
+      width: 100%;
+    }
+
+    &-name {
+      text-align: center;
+      font-size: 1rem;
+      margin-top: 10px;
+      color: #f0f0f0;
+    }
+  }
+
+  // Section : Réseaux sociaux
+  &__socials {
+    margin-bottom: 40px;
+
+    &-list {
+      display: flex;
+      gap: 15px;
+      list-style: none;
+      padding: 0;
+      justify-content: center;
+    }
+
+    &-item {
+      &-link {
+        text-decoration: none; // Supprime le surlignage des liens
+        color: $color-text; // Texte blanc
+        display: flex;
+        align-items: center;
+        font-size: 1rem;
+        gap: 8px;
+
+        &:hover {
+          text-decoration: none; // Supprime le soulignement au survol
+          color: $color-link; // Change la couleur au survol si tu le souhaites
+        }
+      }
+
+      &-icon {
+        max-width: 24px;
+        max-height: 24px;
+        width: auto;
+        height: auto;
+        object-fit: contain;
+      }
+    }
+  }
+
+  // Section : Contact
+  &__contact {
+    background-color: $background-color-sections;
+    padding: 20px;
+    border-radius: 5px;
+    margin-bottom: 40px;
+
+    &-list {
+      list-style: none;
+      padding: 0;
+    }
+
+    &-item {
+      font-size: 1rem;
+      margin-bottom: 10px;
+      color: #f0f0f0;
+
+      strong {
+        font-weight: bold;
+      }
+    }
+  }
+
+  // Section : À propos
+  &__about {
+    background-color: $background-color-sections;
+    padding: 20px;
+    border-radius: 5px;
+    margin-bottom: 40px;
+
+    &-text {
+      font-size: 1rem;
+      color: #f0f0f0;
+    }
+  }
+
+  // Section : Erreur
+  &__error {
+    background-color: #ffcccc;
+    padding: 15px;
+    border-radius: 5px;
+    font-size: 1rem;
+    color: #d9534f;
+    text-align: center;
+
+    &-message {
+      margin: 0;
+    }
+  }
+
+  // Responsiveness
+  @media (max-width: #{$breakpoint-sm}) {
+    .footer {
+      padding: 20px;
+    }
+
+    .footer__heading {
+      font-size: 1.2rem;
+    }
+
+    .footer__partners {
+      &-container {
+        gap: 15px;
+      }
+
+      &-logo {
+        max-width: 80px; // Réduit la taille des logos
+      }
+    }
+
+    .footer__socials {
+      &-list {
+        flex-direction: column;
+        gap: 12px;
+      }
+    }
+
+    .footer__contact {
+      &-list {
+        padding-left: 20px;
+      }
+    }
+
+    .footer__about {
+      &-text {
+        font-size: 0.9rem;
+      }
+    }
+  }
+
+  @media (max-width: #{$breakpoint-md}) {
+    .footer {
+      padding: 30px 20px;
+    }
+
+    .footer__heading {
+      font-size: 1.3rem;
+    }
+
+    .footer__partners {
+      &-container {
+        gap: 20px;
+      }
+
+      &-logo {
+        max-width: 90px; // Ajuste la taille des logos
+      }
+    }
+
+    .footer__socials {
+      &-list {
+        gap: 15px;
+      }
+    }
+
+    .footer__contact {
+      &-list {
+        padding-left: 20px;
+      }
+    }
+  }
+
+  @media (max-width: #{$breakpoint-lg}) {
+    .footer {
+      padding: 40px 30px;
+    }
+
+    .footer__partners {
+      &-container {
+        gap: 20px;
+      }
+
+      &-logo {
+        max-width: 100px;
+      }
+    }
+
+    .footer__socials {
+      &-list {
+        gap: 20px;
+      }
+    }
+
+    .footer__contact {
+      &-list {
+        padding-left: 30px;
+      }
+    }
   }
 }
 
-/* Pour les écrans de plus de 1024px */
-@media (min-width: 1024px) {
-  .footer__partner {
-    width: 22%;
-  }
-
-  .footer__social-item {
-    display: inline-block;
-    margin-right: 1rem;
-  }
-
-  .footer__contact-item {
-    width: 30%;
-  }
-
-  .footer__about-text {
-    width: 50%;
-    margin-top: 1rem;
-  }
-}
 
 </style>
