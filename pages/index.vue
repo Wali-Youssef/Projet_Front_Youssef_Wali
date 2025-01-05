@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import type { SanityDocument } from "@sanity/client";
 
-
-
 const { data: homepageData } = await useSanityQuery<SanityDocument>(groq`
   *[_type == "homepage"][0] {
     title,
@@ -19,6 +17,32 @@ const { data: homepageData } = await useSanityQuery<SanityDocument>(groq`
         value,
         text
       }
+    },
+    features[] {
+      image {
+        asset->{
+          _id,
+          url
+        }
+      },
+      text
+    },
+    pricing[] {
+      name,
+      price,
+      features,
+      cta
+    },
+    testimonials[] {
+      name,
+      role,
+      text,
+      image {
+        asset->{
+          _id,
+          url
+        }
+      }
     }
   }
 `);
@@ -26,14 +50,22 @@ const { data: homepageData } = await useSanityQuery<SanityDocument>(groq`
 
 <template>
   <div class="homepage">
-    <!-- Appel du composant Hero avec les données récupérées -->
+    <!-- Composant Hero -->
     <Hero
       :title="homepageData?.hero.title"
       :text="homepageData?.hero.text"
       :image="homepageData?.hero.image"
       :stats="homepageData?.hero.stats"
     />
-    <h2 class="page-title">{{ homepageData?.title }}</h2>
+
+    <!-- Composant Features -->
+    <Features :features="homepageData?.features" />
+
+    <!-- Composant Pricing -->
+    <Pricing :pricing="homepageData?.pricing" />
+
+    <!-- Composant Testimonials -->
+    <Testimonials :testimonials="homepageData?.testimonials" />
   </div>
 </template>
 
@@ -42,7 +74,6 @@ const { data: homepageData } = await useSanityQuery<SanityDocument>(groq`
   font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
-  background-color: #f4f4f4;
 
   .page-title {
     font-size: 2.2rem;

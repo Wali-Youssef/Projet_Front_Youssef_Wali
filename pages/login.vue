@@ -1,17 +1,16 @@
 <script setup lang="ts">
-import RegisterForm from '@/components/RegisterForm.vue'; // Import du formulaire
+import LoginForm from '@/components/Form.vue'; // Chemin vers ton composant de formulaire
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
 const errorMessage = ref('');
 
-// Fonction pour gérer l'inscription
-async function handleRegister(data: { username: string; password: string }) {
+async function handleLogin(data: { username: string; password: string }) {
   console.log('Données reçues du formulaire:', data);
 
   try {
-    const responseRegister = await fetch('http://localhost:4000/auth/register', {
+    const responseLogin = await fetch('http://localhost:4000/auth/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -20,26 +19,32 @@ async function handleRegister(data: { username: string; password: string }) {
     });
 
     // Vérifie si la réponse est incorrecte
-    if (!responseRegister.ok) {
-      throw new Error('Une erreur est survenue lors de l\'inscription.');
+    if (!responseLogin.ok) {
+      throw new Error('Une erreur est survenue lors de la connexion.');
     }
 
-    const responseData = await responseRegister.json();
+    const responseData = await responseLogin.json();
     console.log('Réponse API:', responseData);
 
-    // Rediriger vers la page de connexion ou autre
-    await router.push('/login');
+    // Enregistrer le token dans un cookie ou un autre stockage
+    const cookieJwt = useCookie('api_tracking_jwt');
+    cookieJwt.value = responseData.token;
+
+    // Rediriger vers le tableau de bord
+    await router.push('/app/dashboard');
   } catch (error) {
     console.error(error);
-    errorMessage.value = 'Une erreur est survenue lors de l\'inscription. Veuillez réessayer.';
+    errorMessage.value = 'Une erreur est survenue lors de la connexion. Veuillez réessayer.';
   }
 }
 </script>
 
 <template>
   <div class="test">
-    <!-- Utilisation du formulaire d'inscription -->
-    <RegisterForm @submit="handleRegister" />
+
+
+    <LoginForm @submit="handleLogin" />
+
     <p v-if="errorMessage" class="error-message">{{ errorMessage }}</p>
   </div>
 </template>
@@ -56,4 +61,5 @@ async function handleRegister(data: { username: string; password: string }) {
     align-items: center;
     justify-content: center;
   }
-</style>
+  
+  </style>

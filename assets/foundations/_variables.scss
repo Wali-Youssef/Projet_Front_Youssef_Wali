@@ -1,16 +1,16 @@
-// Colors
-$primaryColor: #6b4eff;
-$primaryDarkColor: #5538ee;
-$white: #fff;
-$gray100: #e3e5e5;
-$gray400: #979c9e;
-$gray800: #303437;
+// Typographie
+$font-family: 'Inter', sans-serif;
 
-$colors: (
-  "red": rgb(133, 13, 13),
-  "green": rgb(56, 184, 56),
-  "blue": rgb(60, 60, 218),
-);
+// Couleurs principales
+$primary-color: #2196F3;
+$danger-color: #F44336;
+$neutral-color: #555;
+$success-color: #4CAF50;
+$input-border-color: #ccc;
+$error-color: #ff4d4d;
 
-// Fonts
-$fontTextFamily: "Inter", sans-serif;
+// Couleurs dynamiques
+$button-hover-color: darken($primary-color, 10%);
+
+// Espacements
+$spacing-unit: 16px;

@@ -9,7 +9,11 @@ export default defineNuxtConfig({
     dataset: "production",
   },
 
- 
+ runtimeConfig: {
+   public: {
+    apiTrackingBaseUrl:' process.env.API_TRACKING_BASE_URL',
+ }
+ },
   css: [
         '@/assets/main.scss'],
 
